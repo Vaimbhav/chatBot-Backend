@@ -8,12 +8,13 @@ require('dotenv').config();
 exports.loginUser = async (req, res) => {
 	const user = req.user;
 	// console.log('login-user ', user);
+
 	return res
 		.cookie('jwt', user.token, {
-			expires: new Date(Date.now() + 24 * 30 * 60 * 60 * 1000),
+			httpOnly: true,
 			sameSite: 'none',
 			secure: true,
-			httpOnly: true,
+			maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
 		})
 		.status(201)
 		.json(sanitizeUser(user));
@@ -121,12 +122,13 @@ exports.createUser = async (req, res) => {
 					sanitizeUser(doc),
 					process.env.SECRET_KEY
 				);
+
 				return res
 					.cookie('jwt', token, {
-						expires: new Date(Date.now() + 24 * 7 * 60 * 60 * 1000),
-						sameSite: 'none', // ✅ allow cross-site cookie
-						secure: true,
 						httpOnly: true,
+						sameSite: 'none',
+						secure: true,
+						maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
 					})
 					.status(201)
 					.json(token);
