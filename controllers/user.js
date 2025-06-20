@@ -11,6 +11,8 @@ exports.loginUser = async (req, res) => {
 	return res
 		.cookie('jwt', user.token, {
 			expires: new Date(Date.now() + 24 * 30 * 60 * 60 * 1000),
+			sameSite: 'none',
+			secure: true,
 			httpOnly: true,
 		})
 		.status(201)
@@ -122,6 +124,8 @@ exports.createUser = async (req, res) => {
 				return res
 					.cookie('jwt', token, {
 						expires: new Date(Date.now() + 24 * 7 * 60 * 60 * 1000),
+						sameSite: 'none', // ✅ allow cross-site cookie
+						secure: true,
 						httpOnly: true,
 					})
 					.status(201)
@@ -179,7 +183,12 @@ exports.fetchAllUsers = async (req, res) => {
 exports.logOutUser = async (req, res) => {
 	// console.log('here logout');
 	return res
-		.cookie('jwt', null, {expires: new Date(Date.now()), httpOnly: true})
+		.cookie('jwt', null, {
+			expires: new Date(Date.now()),
+			sameSite: 'none', // ✅ allow cross-site cookie
+			secure: true,
+			httpOnly: true,
+		})
 		.sendStatus(200);
 };
 
