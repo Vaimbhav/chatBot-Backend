@@ -26,6 +26,13 @@ connectWithDb();
 
 const server = express();
 
+server.use(
+	cors({
+		origin: 'https://chatbot-11.netlify.app',
+		credentials: true,
+	})
+);
+
 server.use(express.json());
 server.use(cookieParser());
 server.use(express.urlencoded({extended: true}));
@@ -44,14 +51,6 @@ server.use(passport.authenticate('session'));
 const opts = {};
 opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = process.env.SECRET_KEY;
-
-const front_url = process.env.FRONTEND_URL;
-server.use(
-	cors({
-		origin: 'https://chatbot-11.netlify.app',
-		credentials: true,
-	})
-);
 
 server.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
