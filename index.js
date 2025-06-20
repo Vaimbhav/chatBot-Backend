@@ -57,9 +57,9 @@ server.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
 });
 
-// server.get('/', (req, res) => {
-// 	res.send('hi buddy');
-// });
+server.get('/', (req, res) => {
+	res.send('hi buddy');
+});
 
 server.use('/api/v1/users', userRouter);
 
