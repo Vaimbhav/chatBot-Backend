@@ -48,7 +48,7 @@ opts.secretOrKey = process.env.SECRET_KEY;
 const front_url = process.env.FRONTEND_URL;
 server.use(
 	cors({
-		origin: front_url,
+		origin: 'https://chatbot-11.netlify.app',
 		credentials: true,
 	})
 );
