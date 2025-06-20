@@ -9,6 +9,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
+const path = require('path');
 
 const User = require('./models/user');
 
@@ -44,9 +45,10 @@ const opts = {};
 opts.jwtFromRequest = cookieExtractor;
 opts.secretOrKey = process.env.SECRET_KEY;
 
+const front_url = process.env.FRONTEND_URL;
 server.use(
 	cors({
-		origin: 'http://localhost:5173',
+		origin: front_url,
 		credentials: true,
 	})
 );
@@ -55,9 +57,9 @@ server.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
 });
 
-server.get('/', (req, res) => {
-	res.send('Hello World!');
-});
+// server.get('/', (req, res) => {
+// 	res.send('hi buddy');
+// });
 
 server.use('/api/v1/users', userRouter);
 
@@ -144,41 +146,3 @@ passport.deserializeUser(async function (user, cb) {
 		return cb(null, userInfo);
 	});
 });
-
-// server.post('/api/v1/chat', async (req, res) => {
-// 	const {text = '', prompt = ''} = req.body;
-
-// 	try {
-// 		const promptStr = `${prompt}\nUser: ${text}\nAI:`;
-// 		console.log('Final Prompt ->', promptStr);
-
-// 		const chatRes = await fetch(
-// 			'https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1',
-// 			{
-// 				method: 'POST',
-// 				headers: {
-// 					Authorization: `Bearer ${process.env.HF_API_KEY}`,
-// 					'Content-Type': 'application/json',
-// 				},
-// 				body: JSON.stringify({inputs: promptStr}),
-// 			}
-// 		);
-
-// 		if (!chatRes.ok) {
-// 			const errText = await chatRes.text();
-// 			return res
-// 				.status(500)
-// 				.json({error: 'Model API Error', details: errText});
-// 		}
-
-// 		const chatData = await chatRes.json();
-// 		const reply =
-// 			chatData[0]?.generated_text?.split('AI:')[1]?.trim() ||
-// 			'No response';
-
-// 		res.json({reply});
-// 	} catch (error) {
-// 		console.error('Chat error:', error);
-// 		res.status(500).json({error: 'Server error', details: error.message});
-// 	}
-// });
