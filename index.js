@@ -84,7 +84,7 @@ passport.use(
 				}
 
 				const isMatch = await bcrypt.compare(password, user.password);
-				console.log('Password match:', isMatch);
+				// console.log('Password match:', isMatch);
 
 				if (isMatch) {
 					const token = jwt.sign(

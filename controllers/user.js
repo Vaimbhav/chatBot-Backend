@@ -7,10 +7,10 @@ require('dotenv').config();
 
 exports.loginUser = async (req, res) => {
 	const user = req.user;
-	console.log('login-user ', user);
+	// console.log('login-user ', user);
 	return res
 		.cookie('jwt', user.token, {
-			expires: new Date(Date.now() + 5 * 60 * 60 * 1000),
+			expires: new Date(Date.now() + 24 * 30 * 60 * 60 * 1000),
 			httpOnly: true,
 		})
 		.status(201)
@@ -121,7 +121,7 @@ exports.createUser = async (req, res) => {
 				);
 				return res
 					.cookie('jwt', token, {
-						expires: new Date(Date.now() + 5 * 60 * 60 * 1000),
+						expires: new Date(Date.now() + 24 * 7 * 60 * 60 * 1000),
 						httpOnly: true,
 					})
 					.status(201)
