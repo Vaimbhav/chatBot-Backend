@@ -28,7 +28,7 @@ const server = express();
 
 server.use(
 	cors({
-		origin: 'https://chatbot-11.netlify.app',
+		origin: ['https://chatbot-11.netlify.app','https://c-frontend-y0er.onrender.com'],
 		credentials: true,
 	})
 );
